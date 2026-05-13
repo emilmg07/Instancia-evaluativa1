@@ -180,6 +180,89 @@ public class InterfazGrafica {
                     }
                     break;
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		case 3: // Registrar asistencia
+
+    System.out.print("\nIngrese el codigo de la materia: ");
+    String codigoAsistencia = sc.nextLine();
+
+    InscripcionMateria insAsistencia = alumno.buscarPorCodigo(codigoAsistencia);
+
+    if (insAsistencia == null) {
+        System.out.println("[ERROR] No estas inscripto en esa materia.");
+        break;
+    }
+
+    System.out.println("Materia: " + insAsistencia.getMateria().getNombre());
+
+    System.out.print("El estudiante estuvo presente? (S/N): ");
+    String respuesta = sc.nextLine();
+
+    boolean presente = respuesta.equalsIgnoreCase("S");
+
+    insAsistencia.registrarAsistencia(presente);
+
+    System.out.printf("Asistencia actualizada: %.2f%%%n",
+            insAsistencia.getPorcentajeAsistencia());
+
+    System.out.println("Condicion actual: "
+            + insAsistencia.getCondicion());
+
+    if (insAsistencia.getPorcentajeAsistencia() < 75) {
+
+        System.out.println("[ALERTA CRITICA] Pierde regularidad.");
+
+    } else if (insAsistencia.getPorcentajeAsistencia() < 80) {
+
+        System.out.println("[ADVERTENCIA] Zona de riesgo.");
+    }
+
+    break;
+
+case 4: // Registrar calificacion
+
+    System.out.print("\nIngrese el codigo de la materia: ");
+    String codigoNota = sc.nextLine();
+
+    InscripcionMateria insNota = alumno.buscarPorCodigo(codigoNota);
+
+    if (insNota == null) {
+        System.out.println("[ERROR] No estas inscripto en esa materia.");
+        break;
+    }
+
+    try {
+
+        System.out.println("Materia: "
+                + insNota.getMateria().getNombre());
+
+        System.out.print("Ingrese la nota (0 a 10): ");
+
+        double nota = Double.parseDouble(sc.nextLine());
+
+        boolean agregada = insNota.agregarNota(nota);
+
+        if (agregada) {
+
+            if (nota >= 6) {
+                System.out.println("Parcial/TP aprobado.");
+            } else {
+                System.out.println("Parcial/TP desaprobado.");
+            }
+
+            System.out.println("\nNotas cargadas:");
+
+            for (double n : insNota.getNotas()) {
+                System.out.println("- " + n);
+            }
+
+            System.out.printf("Promedio actualizado: %.2f%n",
+                    insNota.getPromedio());
+        }
+
+    } catch (NumberFormatException e) {
+
+        System.out.println("[ERROR] Debe ingresar un numero valido.");
+    }
                 
             }
         } while (opcion != 0);
