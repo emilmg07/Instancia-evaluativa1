@@ -262,7 +262,57 @@ case 4: // Registrar calificacion
     } catch (NumberFormatException e) {
 
         System.out.println("[ERROR] Debe ingresar un numero valido.");
+       
     }
+    
+    ////////////////////////////////////////////////////////////////////////
+   
+    case 5: // Ver reportes
+            System.out.println("\n=== REPORTES ACADEMICOS ===");
+            System.out.println("1. Reporte de situacion general");
+            System.out.println("2. Reporte de materias en riesgo");
+            System.out.println("3. Reporte de materias aprobadas");
+            System.out.println("0. Volver");
+            System.out.print("Opcion: ");
+            
+            // 1. Inicializamos la variable en -1 para evitar el error del compilador
+            int opcionReporte = -1; 
+            
+            try {
+                opcionReporte = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("[ERROR] Opcion invalida.");
+                break; // Agregamos este break para que aborte la operacion si ingresa un caracter no valido
+            }
+
+            // Instanciamos tu nueva clase
+            ReportesAcademicos gestorReportes = new ReportesAcademicos();
+            
+            // Obtenemos la lista de materias del alumno
+            ArrayList<InscripcionMateria> listaParaReportes = alumno.getMaterias();
+
+            switch (opcionReporte) {
+                case 1:
+                    gestorReportes.mostrarSituacionGeneral(listaParaReportes);
+                    break; // 2. Agregamos los break que faltaban en cada caso
+                    
+                case 2:
+                    gestorReportes.mostrarMateriasEnRiesgo(listaParaReportes);
+                    break; 
+                    
+                case 3:
+                    gestorReportes.mostrarMateriasAprobadas(listaParaReportes);
+                    break; 
+                    
+                case 0:
+                    break; 
+                    
+                default:
+                    System.out.println("Opcion invalida.");
+                    break; 
+            }
+            
+            break; // 3. Este break cierra el case 5 del menu principal
                 
             }
         } while (opcion != 0);
